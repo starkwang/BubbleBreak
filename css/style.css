@@ -1,0 +1,23 @@
+.position-15-15{
+	width:100px;
+	height:100px;
+	background-color: #000000;
+}
+
+.bubble{
+	border-radius: 40px;
+	position:absolute;
+	width:30px;
+	height:30px;
+}
+
+.bubble:hover{
+
+}
+
+.playground{
+	width: 800px;
+	height: 600px;
+	position: relative;
+	background-color: #000000;
+}
