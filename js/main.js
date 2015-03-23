@@ -5,9 +5,9 @@ $(document).ready(function(){
 })
 
 function Game(){
-	this.allsquare = [];
+	this.allcolor = [];
 	this.route = [];
-
+	this.allsquare = [];
 	this.colorfactory = function (color_amount){
 		var colorbox = ["#C00000","#C08000","#E0E038","#009A00","#0C2F81","#550680"];
 		var step = 1/color_amount;
@@ -21,11 +21,13 @@ function Game(){
 
 	this.initializer = function(color_amount){
 		for (var i = 0 ; i < 17 ; i ++){
-			this.allsquare[i] = new Array();
+			this.allcolor[i] = new Array();
 			this.route[i] = new Array();
+			this.allsquare[i] = new Array();
 			for (var j = 0 ; j < 17 ; j ++){
-				this.allsquare[i][j] = 0;
+				this.allcolor[i][j] = 0;
 				this.route[i][j] = 0;
+				this.allsquare[i][j] = 0;
 			}
 		}
 
@@ -34,20 +36,24 @@ function Game(){
 				var colorstr = this.colorfactory(color_amount);
 				var leftstr = (x*30).toString() + "px";
 				var topstr = (y*30).toString() + "px";
-				this.allsquare[x][y] = colorstr;
-				$("<div/>").css("background-color",colorstr)
+				this.allcolor[x][y] = colorstr;
+				var temp = $("<div/>").css("background-color",colorstr)
 					.addClass("bubble")
 					.attr("x",x)
 					.attr("y",y)
 					.css("left",leftstr)
-					.css("top",topstr)
-					.appendTo(".playground");
+					.css("top",topstr);
+				temp.appendTo(".playground");
+				this.allsquare[x][y] = temp;
 				}
 		}
 
 		$(".bubble").click(function(){
+			//fuck();
 			game.check( $(this).attr("x") , $(this).attr("y") );
 			game.delete();
+			game.move();
+			game.flash();
 		});  
 	}
 
@@ -56,23 +62,23 @@ function Game(){
 	this.check = function(x,y){
 		var a = parseInt(x);
 		var b = parseInt(y);
-		var pre_color = game.allsquare[a][b];
+		var pre_color = game.allcolor[a][b];
 		
 		this.route[a][b] = 1;
 
-		if(game.allsquare[a-1][b] == pre_color && game.route[a-1][b] == 0){
+		if(game.allcolor[a-1][b] == pre_color && game.route[a-1][b] == 0){
 			this.route[a-1][b] = 1;
 			this.check(a-1,b);
 		}
-		if(game.allsquare[a+1][b] == pre_color && game.route[a+1][b] == 0){
+		if(game.allcolor[a+1][b] == pre_color && game.route[a+1][b] == 0){
 			this.route[a+1][b] = 1;
 			this.check(a+1,b);
 		}
-		if(game.allsquare[a][b-1] == pre_color && game.route[a][b-1] == 0){
+		if(game.allcolor[a][b-1] == pre_color && game.route[a][b-1] == 0){
 			this.route[a][b-1] = 1;
 			this.check(a,b-1);
 		}
-		if(game.allsquare[a][b+1] == pre_color && game.route[a][b+1] == 0){
+		if(game.allcolor[a][b+1] == pre_color && game.route[a][b+1] == 0){
 			this.route[a][b+1] = 1;
 			this.check(a,b+1);
 		}
@@ -82,11 +88,96 @@ function Game(){
 	this.delete = function(){
 		for(var i = 0 ; i < 17; i++){
 			for(var j = 0 ; j < 17; j++){
-				if(game.route[i][j] == 1)
+				if(game.route[i][j] == 1){
 					var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]"; 
-					$(search_str).css("display","none");
+					//$(search_str).css("display","none");
+					$(search_str).remove();
+				}
 			}
 		}
 	}
+	this.move = function() {
+		var step_map = [];
+		for (var i = 0 ; i < 17 ; i ++){
+			step_map[i] = new Array();
+			for (var j = 0 ; j < 17 ; j ++){
+				step_map[i][j] = 0;
+			}
+		}
+
+		for(var i = 1 ; i <=15 ; i++){
+			for(var j = 1 ; j <=15 ; j++){
+				step_map[i][j] = game.cal_step(i,j) || 0;
+				var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]"; 
+					var topstr = ((j+step_map[i][j])*30).toString() + "px";
+					//$(search_str).css("top", topstr );
+					$(search_str).animate({top:topstr},"fast");
+				
+			}
+		}
+
+		for(var i = 15 ; i >=0 ; i--){
+			for(var j = 15 ; j >=0 ; j--){
+				if(step_map[i][j] != 0){
+					this.allcolor[i][j+step_map[i][j]] = this.allcolor[i][j];
+					this.allcolor[i][j] = 0;
+				}
+			}
+		}
+		/*
+		for(var i = 1 ; i <=15 ; i++){
+			for(var j = 1 ; j <=15 ; j++){
+				var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]";
+				var new_y_str = $(search_str).css("top");
+				var new_y = parseInt(new_y_str);
+				$(search_str).attr("y", (new_y/30).toString() );
+			}
+		}
+		*/
+		
+
+	}
+
+	this.cal_step = function(x,y){
+		var step = 0;
+		for(var j = y+1;j<=15;j++){
+			if(game.route[x][j] == 1){
+				step = step + 1;
+			}
+		}
+		return step;
+	}
+
+	this.flash = function(){
+		for (var i = 0 ; i < 17 ; i ++){
+			for (var j = 0 ; j < 17 ; j ++){
+				game.route[i][j] = 0;
+			}
+		}
+/*
+		$(".bubble").each(function(){
+			var new_y_str = $(this).css("top");
+			var new_y = parseInt(new_y_str);
+			alert(new_y);
+			$(this).attr("y", (new_y/30).toString() );
+
+		});*/
+	}
+
 }
 
+
+function fuck(){
+	$(".bubble").each(function(){
+			var new_y_str = $(this).css("top");
+			var new_y = parseInt(new_y_str);
+			$(this).attr("y", (new_y/30).toString() );
+		});
+}
+
+var wait=setInterval(function(){
+                if(!$("div").is(":animated")){
+                    //执行code
+                   fuck();
+                }
+           },200);
