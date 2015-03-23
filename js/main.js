@@ -1,6 +1,7 @@
 $(document).ready(function(){ 
 	var color_amount = 4;
 	window.game = new Game;
+	window.score_count = new Score;
 	game.initializer(color_amount);
 })
 
@@ -86,15 +87,18 @@ function Game(){
 
 
 	this.delete = function(){
+		var score = 0;
 		for(var i = 0 ; i < 17; i++){
 			for(var j = 0 ; j < 17; j++){
 				if(game.route[i][j] == 1){
 					var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]"; 
 					//$(search_str).css("display","none");
 					$(search_str).remove();
+					score = score + 1;
 				}
 			}
 		}
+		score_count.set(score);
 	}
 	this.move = function() {
 		var step_map = [];
