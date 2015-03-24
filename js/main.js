@@ -115,7 +115,7 @@ function Game(){
 				var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]"; 
 					var topstr = ((j+step_map[i][j])*30).toString() + "px";
 					//$(search_str).css("top", topstr );
-					$(search_str).animate({top:topstr},"fast");
+					$(search_str).animate({top:topstr});
 				
 			}
 		}
@@ -153,35 +153,58 @@ function Game(){
 	}
 
 	this.flash = function(){
-		for (var i = 0 ; i < 17 ; i ++){
-			for (var j = 0 ; j < 17 ; j ++){
+		for (var i = 1 ; i <= 15 ; i ++){
+			for (var j = 1 ; j <=15 ; j ++){
 				game.route[i][j] = 0;
 			}
 		}
-/*
-		$(".bubble").each(function(){
-			var new_y_str = $(this).css("top");
-			var new_y = parseInt(new_y_str);
-			alert(new_y);
-			$(this).attr("y", (new_y/30).toString() );
 
-		});*/
 	}
 
-}
 
-
-function fuck(){
+	this.fuck = function(){
 	$(".bubble").each(function(){
 			var new_y_str = $(this).css("top");
+			var new_x_str = $(this).css("left");
+			var new_x = parseInt(new_x_str);
 			var new_y = parseInt(new_y_str);
 			$(this).attr("y", (new_y/30).toString() );
+			$(this).attr("x", (new_x/30).toString() );
 		});
+
+		var a = game.allcolor.length - 2;
+		for (var i = 1 ; i <= a ; i ++){
+			if(game.allcolor[i][15] == 0){
+				game.allcolor.splice(i,1);
+				a = game.allcolor.length - 2;
+				for(var x = i+1;x<=15;x++){
+					/*
+					for(var y = 15;y>=1;y--){
+						var search_str ="\[x=" + x.toString() +   "\]\[y="  + y.toString() +   "\]";
+						var tempx = (parseInt($(search_str).attr("x"))-1).toString();
+						alert(search_str);
+						alert($(search_str).attr("x"));
+						$(search_str).attr("x",tempx);
+					}
+					*/
+					var search_str ="\[x=" + x.toString() +   "\]";
+					$(search_str).each(function(){
+						$(this).attr("x",(x-1).toString());
+						$(this).animate({left:(((x-1)*30).toString())+"px"});
+					});
+
+				}
+			}
+		}
+	
 }
+
+}
+
 
 var wait=setInterval(function(){
                 if(!$("div").is(":animated")){
                     //执行code
-                   fuck();
+                   game.fuck();
                 }
            },200);
