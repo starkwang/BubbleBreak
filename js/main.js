@@ -4,6 +4,10 @@ $(document).ready(function(){
 	window.score_count = new Score;
 	game.initializer(color_amount);
 })
+$(function() {
+    FastClick.attach(document.body);
+});
+
 
 function Game(){
 	this.allcolor = [];
