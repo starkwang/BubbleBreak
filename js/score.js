@@ -1,8 +1,8 @@
 function Score () {
 	this.set = function(x){
-		var t = document.getElementById("score").innerHTML;
+		var t = document.getElementById("figure").innerHTML;
 		v = parseInt(t);
 		t = v + x*x*x;
-		document.getElementById("score").innerHTML = t.toString();
+		document.getElementById("figure").innerHTML = t.toString();
 	}
 }

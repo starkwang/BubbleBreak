@@ -1,8 +1,3 @@
-.position-15-15{
-	width:100px;
-	height:100px;
-	background-color: #000000;
-}
 
 .bubble{
 	border-radius: 10px;
@@ -11,13 +6,69 @@
 	height:30px;
 }
 
-.bubble:hover{
-
-}
-
 .playground{
-	width: 800px;
-	height: 600px;
-	position: relative;
-	background-color: #000000;
+	width: 510px;
+	height: 510px;
+	position: absolute;
+	top:10px;
+	left:10px;
+	border-radius: 20px;
 }
+
+.playground,.score,.level,.me{
+background:rgba(92,92,92,.8);
+}
+
+
+.word{
+
+}
+.score{
+	position: absolute;
+	top:10px;
+	left: 530px;
+	border-radius: 20px;
+	width: 400px;
+	height:163px;
+	text-align: center;
+}
+
+.level{
+	position: absolute;
+	top:183px;
+	left: 530px;
+	border-radius: 20px;
+	width: 400px;
+	height:163px;
+	text-align: center;
+}
+
+.me{
+	position: absolute;
+	top:356px;
+	left: 530px;
+	border-radius: 20px;
+	width: 400px;
+	height:163px;
+	text-align: center;
+
+}
+
+#figure,#word{
+	font-size: 30px;
+	color:#FFFFFF;
+	font-family:微软雅黑;
+}
+
+.bg{
+	position: relative;
+	width:940px;
+	height: 530px;
+	background: url("../img/bg1.jpg");
+	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";  
+	-moz-background-size:no-repeat;  
+	-webkit-background-size:no-repeat;
+    	background-size:no-repeat;
+    	background-size:cover;
+}
+
