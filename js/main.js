@@ -196,6 +196,7 @@ function Game(){
 
 				var temp = $("<p></p>").text("通关！");
 				temp.appendTo(".next");
+				$(".next").css("display","block");
 			}
 			
 	}
