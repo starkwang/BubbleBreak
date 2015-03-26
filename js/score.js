@@ -1,8 +1,18 @@
 function Score () {
 	this.set = function(x){
-		var t = document.getElementById("figure").innerHTML;
+		var t = $(".score > #figure").html();
 		v = parseInt(t);
-		t = v + x*x*x;
-		document.getElementById("figure").innerHTML = t.toString();
+
+		if(x == 1){
+			t = v -1000;
+		}
+
+		if(x<=14 && x>1){
+			t = v + x*x*x;
+		}
+		if(x>14){
+			t = v + 2500 + Math.floor(2000*Math.log(x-12));
+		}
+		$(".score > #figure").html(t.toString());
 	}
 }

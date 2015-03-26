@@ -1,8 +1,8 @@
 $(document).ready(function(){ 
-	var color_amount = 4;
 	window.game = new Game;
 	window.score_count = new Score;
-	game.initializer(color_amount);
+	window.level = 3;
+	game.initializer(window.level);
 })
 $(function() {
     FastClick.attach(document.body);
@@ -19,12 +19,14 @@ function Game(){
 		var rand = Math.random();
 		for( var x =1 ; x <= 6 ; x++ ){
 			if(rand > (x-1)/color_amount && rand < x/color_amount){
-				return colorbox[x];
+				return colorbox[x-1];
 			}
 		}
 	}
 
 	this.initializer = function(color_amount){
+		$(".next").css("display","none");
+		//$(".playground").css("display","none");
 		for (var i = 0 ; i < 17 ; i ++){
 			this.allcolor[i] = new Array();
 			this.route[i] = new Array();
@@ -60,6 +62,10 @@ function Game(){
 			game.move();
 			game.flash();
 		});  
+
+		var tempurl = "url(\"./img/bg" + (window.level-2).toString() + ".jpg\")";
+		$(".bg").css("background",tempurl)
+			.css("background-size","cover");
 	}
 
 
@@ -119,7 +125,7 @@ function Game(){
 				var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]"; 
 					var topstr = ((j+step_map[i][j])*30).toString() + "px";
 					//$(search_str).css("top", topstr );
-					$(search_str).animate({top:topstr});
+					$(search_str).animate({top:topstr},"fast");
 				
 			}
 		}
@@ -165,8 +171,68 @@ function Game(){
 
 	}
 
+	this.next_level = function(){
+			game.status = "transiton";
+			if($(".next").css("display")=="none" && window.level < 6){
+				$(".next > p").remove();
+				var temp = $("<p></p>").text("下一关！");
+				temp.appendTo(".next");
+				var temp = $("<p></p>").text("GO!")
+							.addClass("go");
+				temp.appendTo(".next");
+				$(".go").click(function(){
+					window.game = new Game;
+					window.score_count = new Score;
+					window.level = window.level + 1;
+					game.initializer(window.level);
+					var t = $(".level > #figure").html();
+					t = (parseInt(t)+1).toString();
+					$(".level > #figure").html(t);
+				});  
+				$(".next").css("display","block");
+			}
 
-	this.fuck = function(){
+			if(window.level == 6 && $(".next").css("display")=="none"){
+
+				var temp = $("<p></p>").text("通关！");
+				temp.appendTo(".next");
+			}
+			
+	}
+
+
+	this.failed = function(){
+		if($(".next").css("display")=="none" && window.level < 6){
+			$(".next > p").remove();
+			var temp = $("<p></p>").text("你输了！");
+			temp.appendTo(".next");
+
+			var temp = $("<p></p>").text("重新开始")
+							.addClass("reset");
+				temp.appendTo(".next");
+				$(".reset").click(function(){
+					window.game = new Game;
+					window.score_count = new Score;
+					game.initializer(3);
+					$(".level > #figure").html("1");
+					$(".score > #figure").html("0");
+				});  
+			$(".next").css("display","block");
+			}
+	}
+
+
+	this.flash_status = function(){
+
+		if(game.allcolor.length == 2){
+			this.next_level();
+		}
+
+		if(parseInt($(".score > #figure").html()) < 0 ){
+			this.failed();
+		}
+
+
 	$(".bubble").each(function(){
 			var new_y_str = $(this).css("top");
 			var new_x_str = $(this).css("left");
@@ -194,14 +260,14 @@ function Game(){
 					var search_str ="\[x=" + x.toString() +   "\]";
 					$(search_str).each(function(){
 						$(this).attr("x",(x-1).toString());
-						$(this).animate({left:(((x-1)*30).toString())+"px"});
+						$(this).animate({left:(((x-1)*30).toString())+"px"},"fast");
 					});
 
 				}
 			}
 		}
 	
-}
+	}
 
 }
 
@@ -209,6 +275,6 @@ function Game(){
 var wait=setInterval(function(){
                 if(!$("div").is(":animated")){
                     //执行code
-                   game.fuck();
+                   game.flash_status();
                 }
-           },200);
+           },100);

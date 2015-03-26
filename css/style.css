@@ -5,8 +5,16 @@
 	width:30px;
 	height:30px;
 }
+.next{
+	text-align: center;
+}
+.next > p{
+	font-size: 30px;
+	color:#FFFFFF;
+	font-family:微软雅黑;
+}
 
-.playground{
+.playground,.next{
 	width: 510px;
 	height: 510px;
 	position: absolute;
@@ -15,7 +23,7 @@
 	border-radius: 20px;
 }
 
-.playground,.score,.level,.me{
+.playground,.score,.level,.me,.next{
 background:rgba(92,92,92,.8);
 }
 
@@ -64,7 +72,7 @@ background:rgba(92,92,92,.8);
 	position: relative;
 	width:940px;
 	height: 530px;
-	background: url("../img/bg1.jpg");
+
 	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";  
 	-moz-background-size:no-repeat;  
 	-webkit-background-size:no-repeat;
