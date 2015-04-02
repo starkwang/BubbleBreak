@@ -203,7 +203,7 @@ function Game(){
 
 
 	this.failed = function(){
-		if($(".next").css("display")=="none" && window.level < 6){
+		if($(".next").css("display")=="none" && window.level <= 6){
 			$(".next > p").remove();
 			var temp = $("<p></p>").text("你输了！");
 			temp.appendTo(".next");

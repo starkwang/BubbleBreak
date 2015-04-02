@@ -13,6 +13,9 @@ function Score () {
 		if(x>14){
 			t = v + 2500 + Math.floor(2000*Math.log(x-12));
 		}
+		if(t < 0 ){
+			t = 0;
+		}
 		$(".score > #figure").html(t.toString());
 	}
 }
