@@ -274,6 +274,9 @@ $(document).ready(function(){
 
 
 	game.initializer(window.level);
+	new Image().src = './img/bg2.jpg';
+    	new Image().src = './img/bg3.jpg';
+    	new Image().src = './img/bg4.jpg';
 })
 
 

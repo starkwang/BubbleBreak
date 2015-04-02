@@ -85,3 +85,10 @@ background:rgba(92,92,92,.7);
     	background-size:cover;
 }
 
+#preloadedImages {
+       width: 0px;
+       height: 0px;
+       display: inline;
+
+}
+
