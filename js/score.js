@@ -15,6 +15,7 @@ function Score () {
 		}
 		if(t < 0 ){
 			t = 0;
+			game.failed();
 		}
 		$(".score > #figure").html(t.toString());
 	}
