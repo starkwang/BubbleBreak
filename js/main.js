@@ -1,15 +1,13 @@
-$(document).ready(function(){ 
-	window.game = new Game;
-	window.score_count = new Score;
-	window.level = 3;
-	game.initializer(window.level);
-})
 $(function() {
     FastClick.attach(document.body);
 });
 
-
-function Game(){
+$(document).ready(function(){ 
+	window.score_count = new Score;
+	window.level = 3;
+	//window.game = new Game;
+	window.game = (function(){
+		function Game(){
 	this.allcolor = [];
 	this.route = [];
 	this.allsquare = [];
@@ -271,6 +269,13 @@ function Game(){
 	}
 
 }
+	return new Game(); 
+	})()
+
+
+	game.initializer(window.level);
+})
+
 
 
 var wait=setInterval(function(){
