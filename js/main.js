@@ -54,7 +54,6 @@ $(document).ready(function(){
 		}
 
 		$(".bubble").click(function(){
-			//fuck();
 			game.check( $(this).attr("x") , $(this).attr("y") );
 			game.delete();
 			game.move();
@@ -62,8 +61,10 @@ $(document).ready(function(){
 		});  
 
 		var tempurl = "url(\"./img/bg" + (window.level-2).toString() + ".jpg\")";
+		$(".bg").css("opacity","0");
 		$(".bg").css("background",tempurl)
 			.css("background-size","cover");
+		$(".bg").animate({opacity:"1"},1000);
 	}
 
 
@@ -100,8 +101,9 @@ $(document).ready(function(){
 			for(var j = 0 ; j < 17; j++){
 				if(game.route[i][j] == 1){
 					var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]"; 
-					//$(search_str).css("display","none");
+
 					$(search_str).remove();
+
 					score = score + 1;
 				}
 			}
@@ -131,21 +133,11 @@ $(document).ready(function(){
 		for(var i = 15 ; i >=0 ; i--){
 			for(var j = 15 ; j >=0 ; j--){
 				if(step_map[i][j] != 0){
-					this.allcolor[i][j+step_map[i][j]] = this.allcolor[i][j];
-					this.allcolor[i][j] = 0;
+					game.allcolor[i][j+step_map[i][j]] = game.allcolor[i][j];
+					game.allcolor[i][j] = 0;
 				}
 			}
 		}
-		/*
-		for(var i = 1 ; i <=15 ; i++){
-			for(var j = 1 ; j <=15 ; j++){
-				var search_str ="\[x=" + i.toString() +   "\]\[y="  + j.toString() +   "\]";
-				var new_y_str = $(search_str).css("top");
-				var new_y = parseInt(new_y_str);
-				$(search_str).attr("y", (new_y/30).toString() );
-			}
-		}
-		*/
 		
 
 	}
@@ -212,6 +204,7 @@ $(document).ready(function(){
 				$(".reset").click(function(){
 					window.game = new Game;
 					window.score_count = new Score;
+					window.level = 3;
 					game.initializer(3);
 					$(".level > #figure").html("1");
 					$(".score > #figure").html("0");
@@ -247,15 +240,6 @@ $(document).ready(function(){
 				game.allcolor.splice(i,1);
 				a = game.allcolor.length - 2;
 				for(var x = i+1;x<=15;x++){
-					/*
-					for(var y = 15;y>=1;y--){
-						var search_str ="\[x=" + x.toString() +   "\]\[y="  + y.toString() +   "\]";
-						var tempx = (parseInt($(search_str).attr("x"))-1).toString();
-						alert(search_str);
-						alert($(search_str).attr("x"));
-						$(search_str).attr("x",tempx);
-					}
-					*/
 					var search_str ="\[x=" + x.toString() +   "\]";
 					$(search_str).each(function(){
 						$(this).attr("x",(x-1).toString());
