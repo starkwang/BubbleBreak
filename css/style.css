@@ -99,9 +99,12 @@ background:rgba(92,92,92,.7);
 	top:0;
 	left: 0;
 	background: #ed5565;
-	z-index: 9999;
+	z-index: 999;
 }
 
 .loader-inner{
 	margin: 20% auto;
+}
+.bar .spinner{
+	z-index: 9999;
 }

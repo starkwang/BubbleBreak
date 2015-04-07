@@ -1,11 +1,13 @@
 $(function() {
     FastClick.attach(document.body);
 });
+NProgress.start();
 window.onload = fade;
 function fade () {
 	$(".loader").animate({opacity:"0"},500,function(){
 		$(".loader").css("display","none");
-	})
+	});
+	NProgress.done();
 }
 $(document).ready(function(){ 
 	window.score_count = new Score;
