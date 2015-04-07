@@ -1,7 +1,12 @@
 $(function() {
     FastClick.attach(document.body);
 });
-
+window.onload = fade;
+function fade () {
+	$(".loader").animate({opacity:"0"},500,function(){
+		$(".loader").css("display","none");
+	})
+}
 $(document).ready(function(){ 
 	window.score_count = new Score;
 	window.level = 3;
